@@ -120,9 +120,7 @@ contract CarbonSmartMeter is OracleConsumer {
      * OracleConsumer(aggregator) wires up the Chainlink feed, while the core
      * meter logic is independent of the price feed.
      */
-    constructor(address token, address aggregator)
-        OracleConsumer(aggregator)
-    {
+    constructor(address token) {
         require(token != address(0), "Zero token address");
 
         baseCarbonToken = IBaseCarbonToken(token);
