@@ -1,0 +1,2 @@
+Token.sol is our ERC-20 carbon credit contract. When the smart meter records energy usage and Chainlink provides 
+verified data, the system calculates the offset and mints carbon tokens to the user’s embedded wallet via Coinbase.
