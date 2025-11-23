@@ -1,6 +1,6 @@
 ## README.md for the Base Carbon Meter
 
-Peer-to-Peer Marketplace Smart Contract Logic.
+=> Building a Peer-to-Peer Marketplace with Smart Contract Logic.
 
 Real time MRV (Measurement, Reporting & Verification) → CO₂ Offsets → Tokenized Rewards on Base
 
