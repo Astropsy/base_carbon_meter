@@ -15,7 +15,7 @@ async function main() {
   const [signer] = await hre.ethers.getSigners();
 
   // Paste the new deployed meter address here:
-  const METER_ADDRESS = "0xB173f071DDBE0D6B17C424BD199FB10c9226b19c";
+  const METER_ADDRESS = "0x0b1d636E1DdED352e850F8763786aBa87f6ed5e4";
 
   const Meter = await hre.ethers.getContractAt("CarbonSmartMeter", METER_ADDRESS);
 
