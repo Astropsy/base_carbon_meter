@@ -4,6 +4,8 @@
 
 Real time MRV (Measurement, Reporting & Verification) → CO₂ Offsets → Tokenized Rewards on Base
 
+Pitch Deck: https://drive.google.com/file/d/1kiGpkH948wTLxp5R6lMK5A5k6rLr4CRa/view?usp=sharing
+
 ## The Problem: Sustainability Compliance Is Breaking Supply Chains.
 
 The EU Green Deal and Carbon Border Adjustment Mechanism (CBAM) require exporters to supply verifiable, timestamped, device level sustainability data.Spreadsheets, estimates, and self reported claims no longer pass audits.
