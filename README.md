@@ -187,6 +187,23 @@ LLM (Amazon Bedrock):
 - Device + Wallet Binding: Each Carbon Smart Meter generates a unique Ed25519 keypair on first boot. The backend binds the device’s public key to the operator wallet. This ensures 1 device = 1 verifiable identity = 1 wallet, preventing device cloning or false reporting.
 - Signed Telemetry: Each VIR packet (Voltage/Current/Resistance to kWh) is cryptographically signed inside the device and verified in AWS before acceptance or rejected automatically if tampered or mismatched.
 
+## BONUS - Test the machine we built:
+
+We built a full Base native backend (provider, wallet, faucet, contract access) using standard Ethereum tooling.
+To test run these functions in terminal: 
+1) Compile the smart contracts:
+npx hardhat compile
+2) Deploy the CarbonSmartMeter + BaseCarbonToken:
+npx hardhat run scripts/deploy.js --network base
+3) Run the Oracle + Valuation Check (stubbed oracle)
+npx hardhat run scripts/updateFromOracle.js --network base
+5) Mint test (creates 1 BC token for testing)
+npx hardhat run scripts/mint.js --network base
+5) inspect the server components:
+node server/index.js
+
+Don't worry, if you break it we will fix it :)
+
 Built by Carbon Credits Marketplace (CCM) 
 Powered by Base rewards & AI logic routing 
 Anchored in real offsets 
