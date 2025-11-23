@@ -1,4 +1,4 @@
-## README.md for P2P Carbon Marketplace
+## README.md for the Base Carbon Meter
 
 Peer-to-Peer Marketplace Smart Contract Logic.
 
