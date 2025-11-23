@@ -44,7 +44,7 @@ Example: Mission Offset
 => Action: Purchase & retire via Base
 => Request ESG report in order to unlock future green financing avenues.
 
-The Vision
+## The Vision
 
 Buy a Base Carbon Meter. Automatically monitor and verify renewable energy usage. Record, track and generate reports. Meet energy generation thresholds and earn rewards while offseting CO₂. All on-chain with Base as the immutable blockchain ledger.
 
