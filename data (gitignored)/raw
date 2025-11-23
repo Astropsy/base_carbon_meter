@@ -1,0 +1,5 @@
+This folder is intentionally empty.
+
+In the current architecture, all energy & CO₂ data is streamed from devices
+to our backend (ESP32 → Cloud → LLM → Smart Contract). We no longer store
+local datasets. The directory is preserved for future extensions.

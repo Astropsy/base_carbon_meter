@@ -1,0 +1,58 @@
+// marketplace-p2p/scripts/getListings.js
+const hre = require("hardhat");
+
+/**
+ * Get active listings from CarbonMarketplace
+ *
+ * Usage:
+ *   npx hardhat run marketplace-p2p/scripts/getListings.js --network base
+ */
+
+async function main() {
+  const MARKETPLACE_ADDRESS = process.env.MARKETPLACE_ADDRESS || "0xMARKETPLACE";
+  const TOKEN_ADDRESS = process.env.TOKEN_ADDRESS || "0x_BC_TOKEN";
+
+  const Marketplace = await hre.ethers.getContractAt("CarbonMarketplace", MARKETPLACE_ADDRESS);
+  const Token = await hre.ethers.getContractAt("BaseCarbonToken", TOKEN_ADDRESS);
+
+  const decimals = Number(await Token.decimals());
+
+  const listingCounter = await Marketplace.listingCounter();
+  const totalListings = Number(listingCounter);
+
+  console.log(`\n📊 Total listings ever created: ${totalListings}`);
+  console.log(`Marketplace: ${MARKETPLACE_ADDRESS}`);
+  console.log(`Token:       ${TOKEN_ADDRESS}\n`);
+
+  if (totalListings === 0) {
+    console.log("No listings found.");
+    return;
+  }
+
+  for (let id = 1; id <= totalListings; id++) {
+    const listing = await Marketplace.listings(id);
+
+    const active = listing.active;
+    if (!active) continue;
+
+    const seller = listing.seller;
+    const amountBC = listing.amountBC;
+    const priceEthWei = listing.priceEth;
+
+    const amountHuman = Number(amountBC) / 10 ** decimals;
+    const priceEthHuman = Number(priceEthWei) / 10 ** 18;
+
+    console.log("--------------------------------------------------");
+    console.log(`Listing ID:  ${id}`);
+    console.log(`Seller:      ${seller}`);
+    console.log(`Amount:      ${amountHuman} BC`);
+    console.log(`Lot price:   ${priceEthHuman} ETH`);
+  }
+
+  console.log("\n✅ Done.\n");
+}
+
+main().catch((error) => {
+  console.error(error);
+  process.exitCode = 1;
+});

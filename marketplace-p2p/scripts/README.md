@@ -54,7 +54,20 @@ Producers keep 95% of their BC, the protocol keeps 5%, and buyers acquire on-cha
 
 This P2P layer:
 
-- Turns **MRV data + smart meter outputs** into **liquid, tradeable climate assets**.
+- Turns MRV data + smart meter outputs** into liquid, tradeable climate assets.
 - Creates new revenue streams for energy producers.
 - Gives buyers audit-proof offsets for ESG and compliance, especially in under-served markets (e.g. unregulated aerospace, emerging markets).
 - Keeps the core Carbon Smart Meter system **unchanged**, while adding a clean, modular marketplace on top.
+
+## Summary
+
+The Marketplace module completes the energy: offset: buyer cycle.
+
+It enables:
+- ESG compliance
+- border carbon reporting
+- aviation offset sourcing
+- agricultural sustainability claims
+- consumer facing sustainability products
+
+All built on Base, using ETH for payment top the producer.
