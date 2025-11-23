@@ -1,0 +1,29 @@
+{
+  "name": "base_carbon_meter",
+  "version": "1.0.0",
+  "description": "A single Base contract with: registration + mining + offset logic. Assumes all MRV (Measuring Reporting and Verification), Ed25519 verification, daily caps, and grid intensity selection are handled on or off chain (ESP32 → AWS/Azure → LLM/Chainlink).",
+  "main": "hardhat.config.js",
+  "directories": {
+    "doc": "docs",
+    "test": "test"
+  },
+  "scripts": {
+    "compile": "hardhat compile",
+    "deploy:base": "hardhat run scripts/deploy.js --network base",
+    "mint:base": "hardhat run scripts/mint.js --network base",
+    "oracle:base": "hardhat run scripts/updateFromOracle.js --network base"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "6.1.0",
+    "hardhat": "2.27.0"
+  },
+  "dependencies": {
+    "@chainlink/contracts": "^0.8.0",
+    "@coinbase/cdp-sdk": "^1.0.0",
+    "dotenv": "^16.6.1",
+    "express": "^5.1.0"
+  }
+}

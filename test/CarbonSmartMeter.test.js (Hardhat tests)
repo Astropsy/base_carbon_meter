@@ -1,0 +1,94 @@
+const { expect } = require("chai");
+const { ethers } = require("hardhat");
+
+describe("CarbonSmartMeter + OracleConsumer Integration", function () {
+  
+  let deployer, user;
+  let token, meter, mockOracle;
+
+  beforeEach(async function () {
+    [deployer, user] = await ethers.getSigners();
+
+    //
+    // 1. Deploy a MOCK Oracle Aggregator (Chainlink-compatible)
+    //
+    const MockOracle = await ethers.getContractFactory("MockV3Aggregator");
+    // 8 decimals, initial answer = 100 * 1e8
+    mockOracle = await MockOracle.deploy(8, "10000000000");
+    await mockOracle.waitForDeployment();
+
+    //
+    // 2. Deploy BaseCarbonToken
+    //
+    const Token = await ethers.getContractFactory("BaseCarbonToken");
+    token = await Token.deploy();
+    await token.waitForDeployment();
+
+    //
+    // 3. Deploy CarbonSmartMeter with overridden oracle address
+    //
+    const Meter = await ethers.getContractFactory("CarbonSmartMeterTestable");
+    meter = await Meter.deploy(token.getAddress(), mockOracle.getAddress());
+    await meter.waitForDeployment();
+
+    //
+    // 4. Set minter
+    //
+    await token.setMinter(await meter.getAddress());
+  });
+
+  it("registers devices correctly", async function () {
+    const deviceId = ethers.encodeBytes32String("DEVICE_001");
+
+    await meter.registerDevice(deviceId, user.address);
+    const d = await meter.getDevice(deviceId);
+
+    expect(d.wallet).to.equal(user.address);
+    expect(d.active).to.equal(true);
+  });
+
+  it("records verified energy and updates CO2 accounting", async function () {
+    const deviceId = ethers.encodeBytes32String("DEVICE_002");
+
+    await meter.registerDevice(deviceId, user.address);
+
+    // 1000 milli-kWh = 1 kWh
+    await meter.recordVerifiedReading(deviceId, 1000);
+
+    const totals = await meter.getWalletTotals(user.address);
+
+    expect(totals.kwhMilli).to.equal(1000);
+    expect(totals.co2MicroKg).to.equal((1000n * 400000n) / 1000n); // = 400,000 µg
+  });
+
+  it("mints tokens at 2.5 kWh per BC", async function () {
+    const deviceId = ethers.encodeBytes32String("DEVICE_003");
+
+    await meter.registerDevice(deviceId, user.address);
+
+    // Record 2.5 kWh = 2,500 milli-kWh → should mint 1 BC
+    await meter.recordVerifiedReading(deviceId, 2500);
+
+    const bal = await token.balanceOf(user.address);
+    expect(bal).to.equal(ethers.parseUnits("1", 18));
+  });
+
+  it("returns correct USD value using mock oracle", async function () {
+    const deviceId = ethers.encodeBytes32String("DEVICE_004");
+
+    await meter.registerDevice(deviceId, user.address);
+
+    // Add 5 kWh = 5000 milli-kWh → 2 BC tokens
+    await meter.recordVerifiedReading(deviceId, 5000);
+
+    const usd = await meter.getWalletOffsetValueUSD(user.address);
+
+    // BC balance = 2 * 1e18 = 2e18
+    // Price = 100 USD (8 decimals) → 100e8
+    //
+    // USD Value = (2e18 * 100e8) / 1e8 = 200e18
+    //
+    expect(usd).to.equal(ethers.parseUnits("200", 18));
+  });
+
+});

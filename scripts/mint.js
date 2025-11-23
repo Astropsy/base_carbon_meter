@@ -18,8 +18,8 @@ async function main() {
   const [signer] = await hre.ethers.getSigners();
 
   // Paste from deploy.js output
-  const TOKEN_ADDRESS = "PASTE_TOKEN_ADDRESS_HERE";
-  const METER_ADDRESS = "PASTE_METER_ADDRESS_HERE";
+  const TOKEN_ADDRESS = "0xE16168caD36cd907dcd8f402Db5Da47a2207a216";
+  const METER_ADDRESS = "0xB173f071DDBE0D6B17C424BD199FB10c9226b19c";
 
   const Token = await hre.ethers.getContractAt("BaseCarbonToken", TOKEN_ADDRESS);
   const Meter = await hre.ethers.getContractAt("CarbonSmartMeter", METER_ADDRESS);
